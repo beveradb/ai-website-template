@@ -2,7 +2,7 @@
 
 Cloudflare is what puts the website on the internet. Here we connect it to their GitHub, so that:
 - every change that's made live is published automatically, and
-- every draft gets its own private-ish **preview link**.
+- every draft gets its own **preview link**. Preview links aren't listed anywhere, but anyone who has the link can open it, so drafts shouldn't contain anything private.
 
 No passwords or keys are handled: Cloudflare and GitHub connect through their own approval screens.
 

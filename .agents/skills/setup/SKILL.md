@@ -96,13 +96,18 @@ Run `gh auth status`. If it's not signed in:
    git reset --hard origin/main
    git branch --set-upstream-to=origin/main main
    ```
-4. Prepare `main`. This is the **one time** you commit straight to `main`, because nothing is live yet:
+4. Label saved changes with their GitHub name, without using their personal email:
+   ```
+   git config user.name "$(gh api user -q '.name // .login')"
+   git config user.email "$(gh api user -q '"\(.id)+\(.login)@users.noreply.github.com"')"
+   ```
+5. Prepare `main`. This is the **one time** you commit straight to `main`, because nothing is live yet:
    - delete `docs/superpowers/` (the template's own build notes)
    - set `"name"` in `wrangler.jsonc` and `package.json` to the site name. Cloudflare's build fails if it doesn't match.
 
    Then run `git commit -am "Set up <site-name>" && git push`.
-5. Turn on the safety check that stops passwords or tokens being uploaded: `git config core.hooksPath .githooks`.
-6. Start the first draft: `git checkout -b change/first-version && git push -u origin HEAD`.
+6. Turn on the safety check that stops passwords or tokens being uploaded: `git config core.hooksPath .githooks`.
+7. Start the first draft: `git checkout -b change/first-version && git push -u origin HEAD`.
 
 Tell them: "Your website's files are now safely stored in your GitHub account."
 

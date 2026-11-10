@@ -13,7 +13,7 @@ The template (https://github.com/beveradb/ai-website-template) improves over tim
 2. Compare versions: `"version"` in this site's `template-manifest.json` against the downloaded one. If they're the same and `node scripts/check.mjs` passes, say "Your instructions are already up to date", clean up the temp folder, and stop.
 3. Start a draft: `git checkout main && git pull && git checkout -b change/template-<new-version>`.
 4. Apply it: `node <tempdir>/scripts/update-from-template.mjs <tempdir> .`. Use the **new** template's script, so fixes to the updater itself apply.
-5. Run `node --test tests/` and `node scripts/check.mjs`. Both must pass. If they don't, stop, throw the draft away (**undo**, situation A), and tell the owner to let their helper know.
+5. Run `node --test tests/` and `node scripts/check.mjs`. Both must pass. If they don't, stop and throw the draft away: `git reset --hard && git checkout main && git branch -D change/template-<new-version>`. This is safe because nothing was shared yet, and site files weren't touched. Then tell the owner to let their helper know.
 6. Read the new entries in `docs/LESSONS.md` (those newer than the old version). Tell the owner in 2–3 plain lines what's improved.
 7. Commit, push, open the draft, and share the preview link as usual. The website should look exactly the same. Say so. Then wait for the OK, and **publish**.
 8. Delete the temporary folder.

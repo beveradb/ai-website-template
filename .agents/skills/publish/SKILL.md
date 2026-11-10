@@ -8,24 +8,25 @@ description: Use when the owner says a previewed change is ready to go live - "m
 ## Before you publish
 
 1. Confirm you've shared a preview link for this draft and they've said to make it live. If not, share the preview first (AGENTS.md section 3) and wait.
-2. If several drafts are open (`gh pr list`), ask which one, describing each in plain words.
-3. Run `node scripts/check.mjs`. It must pass.
-4. Make sure everything is saved: `git status` shows nothing to commit, and `git push` is up to date.
+2. Find the draft's number. If several drafts are open (`gh pr list`), ask which one, describing each in plain words. Use that number `<n>` in every command below.
+3. Make sure it's still exactly what they saw: `gh pr view <n> --json headRefOid -q .headRefOid` must equal the commit you noted when you shared the preview. If it changed (e.g. someone else added to it), share a fresh preview and ask again.
+4. Run `node scripts/check.mjs`. It must pass.
+5. Make sure everything is saved: `git status` shows nothing to commit, and `git push` is up to date.
 
 ## Publish
 
-If the draft is marked as a GitHub "draft" pull request, run `gh pr ready` first.
+If it's marked as a GitHub "draft" pull request, run `gh pr ready <n>` first.
 
 ```
-gh pr merge --squash --delete-branch
+gh pr merge <n> --squash --delete-branch --match-head-commit <the commit they approved>
 git checkout main && git pull
 ```
 
 **If the merge fails because of permissions or settings,** fall back to the owner doing it:
 
-1. Get the draft's link: `gh pr view --json url -q .url`.
+1. Get the draft's link: `gh pr view <n> --json url -q .url`.
 2. Say: "One last click from you: open this link, scroll down, click the green **Merge** button, then **Confirm**. Tell me when you've done it."
-3. When they say it's done, check with `gh pr view --json state -q .state` (should be `MERGED`), then `git checkout main && git pull`.
+3. When they say it's done, check with `gh pr view <n> --json state -q .state` (should be `MERGED`), then `git checkout main && git pull`.
 
 ## Check it's live
 

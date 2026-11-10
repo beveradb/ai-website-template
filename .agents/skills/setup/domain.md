@@ -17,8 +17,11 @@ A domain is the website's address, like `janesmithpottery.com`. Ask: "Do you alr
    - CNAMEs like `*._domainkey`, `autodiscover` and `mail`
    - **SRV** records
 
-   Cloudflare's import often misses some. Add any that are missing before continuing, copied exactly. The only records to remove are old *website* records at the root (`@`) or `www` that would clash with the new site, and only after showing the owner.
-6. **Check DNSSEC first.** Run `dig +short DS <domain>` (Mac) or `Resolve-DnsName <domain> -Type DS` (Windows), or look for "DNSSEC" in the registrar's settings. If it's on, have them **turn DNSSEC off at the registrar** and wait **at least 24 hours** before changing nameservers. Switching while it's on can take the website *and email* offline. Note the wait in `SETUP-PROGRESS.md`. After the domain is Active in Cloudflare, turn DNSSEC back on there (**DNS → Settings → DNSSEC**) and add the DS record it shows at the registrar.
+   Cloudflare's import often misses some. Add any that are missing before continuing, copied exactly.
+   - **Mail records must be "DNS only"** (grey cloud, not orange). That includes `mail`, `autodiscover`, and any name an MX record points to. A proxied mail hostname stops email working.
+   - If an **MX record points at the domain itself** (`@`) or at `www`, stop and ask their helper. That setup needs mail moving to its own hostname first.
+   - **Keep the old website records for now.** They're replaced in "Attach the domain", so the site stays reachable in between.
+6. **Check DNSSEC first.** Run `dig +short DS <domain>` (Mac) or `Resolve-DnsName <domain> -Type DS` (Windows), or look for "DNSSEC" in the registrar's settings. If it's on, have them **turn DNSSEC off at the registrar**. Then wait until `dig +short DS <domain>` returns nothing, plus at least another 24–48 hours for old copies to expire, before changing nameservers. Switching while it's on can take the website *and email* offline. Note the wait in `SETUP-PROGRESS.md`. After the domain is Active in Cloudflare, turn DNSSEC back on there (**DNS → Settings → DNSSEC**) and add the DS record it shows at the registrar.
 7. Cloudflare shows two **nameservers**. Open their registrar's website (they sign in) and help them find **Nameservers** (sometimes under DNS or Advanced). Change it to "custom" and enter Cloudflare's two.
 8. Wait for Cloudflare to say the domain is **Active**. This can take from minutes to a few hours, so they can come back later. Note in `SETUP-PROGRESS.md` that you're waiting.
 9. Then attach the domain to the site (see "Attach the domain" below).
@@ -35,7 +38,8 @@ If the domain is with Wix or Squarespace and its email is through them, be extra
 
 ## Attach the domain to the site
 
-1. In Cloudflare, open the site's Worker → **Settings** → **Domains & Routes** → **Add** → **Custom domain**.
-2. Add `<domain>`, then add `www.<domain>` too.
-3. Wait a few minutes, then open both addresses to check they load.
-4. Record the domain in `SETUP-PROGRESS.md` and in `SITE.md` under `## Notes`.
+1. In Cloudflare **DNS → Records**, delete the old website records at the root (`@`) and `www` (A, AAAA or CNAME) that would clash. Show the owner first, and never delete mail records. Do this straight before step 2, so the gap is seconds.
+2. In Cloudflare, open the site's Worker → **Settings** → **Domains & Routes** → **Add** → **Custom domain**.
+3. Add `<domain>`, then add `www.<domain>` too.
+4. Wait a few minutes, then open both addresses to check they load.
+5. Record the domain in `SETUP-PROGRESS.md` and in `SITE.md` under `## Notes`.

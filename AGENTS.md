@@ -28,6 +28,8 @@ The owner knows what they want their website to say and look like. They do not k
 
 ## 3. How every change works
 
+Commands below are written for Mac. On Windows, run each part of a `&&` chain as a separate command and stop if one fails, because Windows PowerShell 5.1 doesn't support `&&`.
+
 Every change, however small, goes through a draft and a preview. Nothing goes live until the owner says so.
 
 1. Start a draft: `git checkout main && git pull && git checkout -b change/<short-description>`.
@@ -35,7 +37,7 @@ Every change, however small, goes through a draft and a preview. Nothing goes li
 3. Run `node scripts/check.mjs`. Fix every problem it reports before going on.
 4. Save and share the draft. (In cloud mode without `gh`, use your app's GitHub tools to open the pull request instead.) `git add -A && git commit -m "<what changed>" && git push -u origin HEAD`. The first time, also run `gh pr create --fill`.
 5. Get the preview link. Cloudflare posts it on the draft, usually within 1–2 minutes. Run `gh pr checks --watch`, then find the preview URL in `gh pr view --comments`. It looks like `https://<something>.workers.dev`.
-6. Give them the link in one sentence, e.g. "Here's a preview of your change: <link>. Have a look, and tell me if you'd like anything different or if it's ready to go live."
+6. Note the draft's latest commit (`git rev-parse HEAD`). That's the version they're approving. Give them the link in one sentence, e.g. "Here's a preview of your change: <link>. Have a look, and tell me if you'd like anything different or if it's ready to go live."
 7. More changes to the same thing go on the same draft: repeat steps 2–6.
 8. **Only when they clearly say so** ("make it live", "publish", "looks good, go ahead"), use the **publish** skill.
 
