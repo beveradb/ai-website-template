@@ -1,0 +1,6 @@
+#!/bin/sh
+# Stops a push if the site check fails (e.g. a password or token was saved in a file).
+node scripts/check.mjs || {
+  echo "Push stopped: fix the problems above first."
+  exit 1
+}

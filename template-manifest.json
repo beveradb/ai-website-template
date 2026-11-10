@@ -1,0 +1,20 @@
+{
+  "version": "0.1.0",
+  "source": "https://github.com/beveradb/ai-website-template",
+  "templateOwned": [
+    "AGENTS.md",
+    "CLAUDE.md",
+    "template-manifest.json",
+    ".agents/skills/**",
+    ".claude/skills/**",
+    ".githooks/**",
+    "scripts/**",
+    "tests/**",
+    ".github/workflows/check.yml",
+    "docs/START-HERE.md",
+    "docs/HELPERS.md",
+    "docs/choosing-a-stack.md",
+    "docs/LESSONS.md",
+    "README.md"
+  ]
+}

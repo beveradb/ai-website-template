@@ -1,0 +1,7 @@
+.superpowers/
+node_modules/
+.wrangler/
+.DS_Store
+.env
+.env.*
+SETUP-PROGRESS.md
