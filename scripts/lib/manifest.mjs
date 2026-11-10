@@ -41,13 +41,14 @@ export function loadManifest(rootDir) {
 }
 
 /** List every file (and symlink) under rootDir as "/"-separated relative paths. */
-export function walk(rootDir, { skip = [] } = {}) {
+/** skip: entry names ignored at any depth; skipPaths: exact relative paths ignored. */
+export function walk(rootDir, { skip = [], skipPaths = [] } = {}) {
   const out = [];
   const visit = (rel) => {
     const abs = path.join(rootDir, rel);
     for (const entry of fs.readdirSync(abs, { withFileTypes: true })) {
       const childRel = rel ? `${rel}/${entry.name}` : entry.name;
-      if (skip.includes(entry.name) || skip.includes(childRel)) continue;
+      if (skip.includes(entry.name) || skipPaths.includes(childRel)) continue;
       if (entry.isDirectory()) visit(childRel);
       else out.push(childRel);
     }

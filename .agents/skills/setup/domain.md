@@ -4,15 +4,25 @@ A domain is the website's address, like `janesmithpottery.com`. Ask: "Do you alr
 
 ## They already own one
 
-1. Ask where they bought it (GoDaddy, Namecheap, Squarespace, Google/Squarespace Domains, Wix…). If they don't know, check `whois <domain>` for the registrar and explain.
-2. Before changing anything, **check for email on the domain:** run `dig +short MX <domain>`. If there are results, they get email at this domain. Tell them: "Your email at this address will keep working. Cloudflare copies these settings over, and I'll double-check them before we switch."
-3. In Cloudflare: **Add a domain** (or **Websites → Add a site**). Enter the domain and choose the **Free** plan. Cloudflare scans the existing settings.
-4. Compare Cloudflare's imported records against the current ones (`dig` for MX, TXT and any other records you can find). Make sure every **MX** and **TXT** record is there. If any are missing, have them add them before continuing. **Don't delete any records**, apart from old website ones that would clash with the new site at the root or `www`.
-5. Cloudflare shows two **nameservers**. Open their registrar's website (they sign in) and help them find **Nameservers** (sometimes under DNS or Advanced). Change it to "custom" and enter Cloudflare's two.
-6. Wait for Cloudflare to say the domain is **Active**. This can take from minutes to a few hours, so they can come back later. Note in `SETUP-PROGRESS.md` that you're waiting.
-7. Then attach the domain to the site (see "Attach the domain" below).
+1. Ask where they bought it (GoDaddy, Namecheap, Squarespace, Google/Squarespace Domains, Wix…). If they don't know, look up the registrar with `whois <domain>` (Mac) or https://lookup.icann.org.
+2. Before changing anything, **check for email on the domain**:
+   - Mac: `dig +short MX <domain>`
+   - Windows: `Resolve-DnsName <domain> -Type MX`
 
-If the domain is with Wix or Squarespace and its email is through them, be extra careful with step 4. If unsure, suggest asking their helper before switching.
+   If there are results, they get email at this domain. Tell them: "Your email at this address will keep working. I'll make sure the email settings come across before we switch."
+3. **Take a full copy of the current settings first.** Open their registrar or DNS provider's DNS page together (they sign in), and export it or take screenshots of every record: type, name and value. Looking up records with `dig` can't list them all.
+4. In Cloudflare: **Add a domain** (or **Websites → Add a site**). Enter the domain and choose the **Free** plan. Cloudflare scans the existing settings.
+5. Compare Cloudflare's imported records against the full copy from step 3. Every record must be there, especially:
+   - **MX** and **TXT** records
+   - CNAMEs like `*._domainkey`, `autodiscover` and `mail`
+   - **SRV** records
+
+   Cloudflare's import often misses some. Add any that are missing before continuing, copied exactly. The only records to remove are old *website* records at the root (`@`) or `www` that would clash with the new site, and only after showing the owner.
+6. Cloudflare shows two **nameservers**. Open their registrar's website (they sign in) and help them find **Nameservers** (sometimes under DNS or Advanced). Change it to "custom" and enter Cloudflare's two.
+7. Wait for Cloudflare to say the domain is **Active**. This can take from minutes to a few hours, so they can come back later. Note in `SETUP-PROGRESS.md` that you're waiting.
+8. Then attach the domain to the site (see "Attach the domain" below).
+
+If the domain is with Wix or Squarespace and its email is through them, be extra careful with step 5. If unsure, suggest asking their helper before switching.
 
 ## They need a new one
 

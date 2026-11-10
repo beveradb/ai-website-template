@@ -19,6 +19,7 @@ Keep progress in `SETUP-PROGRESS.md` in the site folder, so setup can continue l
 - If it doesn't exist, create it with the checklist below, all unticked.
 - If it exists, read it. Welcome them back ("Welcome back! Last time we got as far as …") and continue at the first unticked step.
 - Tick each step (`- [x]`) as soon as it's done.
+- The file is deliberately **not saved to GitHub** (it is in `.gitignore`). It stays in this folder whatever draft you are on, so switching drafts never loses progress.
 - Only write non-secret facts: their GitHub username, the site name, the domain. **Never** write passwords, codes or email addresses.
 
 ```markdown
@@ -84,8 +85,8 @@ Run `gh auth status`. If it's not signed in:
 
 ### repo
 1. Agree a site name: short, lowercase, hyphens, e.g. `jane-smith-pottery`. Record it.
-2. Create their copy of the template: `gh repo create <site-name> --private --template beveradb/ai-website-template --description "<their site, in a few words>"`.
-3. Turn this folder into it. Wait a few seconds after creating, and retry the fetch if it's empty:
+2. Create their copy of the template, **unless it already exists** (check with `gh repo view <username>/<site-name>`, e.g. after an interrupted setup): `gh repo create <site-name> --private --template beveradb/ai-website-template --description "<their site, in a few words>"`.
+3. Turn this folder into it, **unless `git remote -v` already shows it**. Wait a few seconds after creating, and retry the fetch if it's empty:
    ```
    git init -b main
    git remote add origin https://github.com/<username>/<site-name>.git
@@ -93,12 +94,13 @@ Run `gh auth status`. If it's not signed in:
    git reset --hard origin/main
    git branch --set-upstream-to=origin/main main
    ```
-4. Start the first draft: `git checkout -b change/first-version`. On it:
+4. Prepare `main`. This is the **one time** you commit straight to `main`, because nothing is live yet:
    - delete `docs/superpowers/` (the template's own build notes)
-   - set `"name"` in `wrangler.jsonc` and `package.json` to the site name
-   - commit `SETUP-PROGRESS.md`
+   - set `"name"` in `wrangler.jsonc` and `package.json` to the site name. Cloudflare's build fails if it doesn't match.
 
-   Push the draft (`git push -u origin HEAD`). Cloudflare needs it to exist.
+   Then run `git commit -am "Set up <site-name>" && git push`.
+5. Turn on the safety check that stops passwords or tokens being uploaded: `git config core.hooksPath .githooks`.
+6. Start the first draft: `git checkout -b change/first-version && git push -u origin HEAD`.
 
 Tell them: "Your website's files are now safely stored in your GitHub account."
 
@@ -138,7 +140,7 @@ Explain, in their words, in 5–6 short lines:
 - Your passwords and recovery codes are in your password manager. Remind them where. Never share them, including with an AI.
 - Template updates: if your helper says so, ask "update your instructions from the template".
 
-Tick **handover**. Setup is complete. Leave `SETUP-PROGRESS.md` in place as a record. Commit the final ticks on a small draft and publish it, or include them in the next change.
+Tick **handover**. Setup is complete. Leave `SETUP-PROGRESS.md` in the folder as a record.
 
 ## If something goes wrong
 

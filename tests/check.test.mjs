@@ -44,9 +44,9 @@ test('skill-link: plain file instead of symlink gives Windows fix-it message', (
   const root = validRepo();
   fs.rmSync(path.join(root, '.claude/skills/setup'));
   write(root, '.claude/skills/setup', '../../.agents/skills/setup');
-  const p = problem(root, 'skill-link');
-  assert.ok(p);
-  assert.match(p.message, /git config core\.symlinks true/);
+  const w = runChecks(root).warnings.find((x) => x.rule === 'skill-link');
+  assert.ok(w);
+  assert.match(w.message, /git config core\.symlinks true/);
 });
 test('skill-link: wrong target', () => {
   const root = validRepo({ skills: ['setup', 'publish'] });
@@ -139,4 +139,35 @@ test('secrets: skips .git, node_modules and tests', () => {
   write(root, 'node_modules/x/a.js', s);
   write(root, 'tests/fixture.txt', s);
   assert.ok(!rules(root).includes('secrets'));
+});
+
+for (const prefix of ['gho_', 'ghu_', 'ghs_', 'ghr_']) {
+  test(`secrets: detects GitHub ${prefix} tokens (e.g. from gh auth token)`, () => {
+    const root = validRepo();
+    write(root, 'site/notes.txt', `token ${prefix}${'a'.repeat(36)}`);
+    assert.ok(rules(root).includes('secrets'));
+  });
+}
+test('secrets: detects unquoted env-style assignment', () => {
+  const root = validRepo();
+  write(root, '.env', 'CLOUDFLARE_API_TOKEN=abcdefghijklmnopqrstuvwx\n');
+  assert.ok(rules(root).includes('secrets'));
+});
+test('secrets: env-style placeholder without a value is fine', () => {
+  const root = validRepo();
+  write(root, 'docs/env.md', 'Set CLOUDFLARE_API_TOKEN= in your shell.\n');
+  assert.ok(!rules(root).includes('secrets'));
+});
+test('secrets: a nested folder named tests is still scanned', () => {
+  const root = validRepo();
+  write(root, 'site/tests/a.txt', 'ghp_' + 'a'.repeat(36));
+  assert.ok(rules(root).includes('secrets'));
+});
+test('skill-link: Windows plain-file link is a warning, not a failure', () => {
+  const root = validRepo();
+  fs.rmSync(path.join(root, '.claude/skills/setup'));
+  write(root, '.claude/skills/setup', '../../.agents/skills/setup');
+  const r = runChecks(root);
+  assert.equal(r.ok, true);
+  assert.ok(r.warnings.some((w) => w.rule === 'skill-link' && /Developer Mode/.test(w.message)));
 });

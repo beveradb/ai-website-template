@@ -10,15 +10,17 @@ const SKILLS = '.agents/skills';
 const LINKS = '.claude/skills';
 const AGENTS_MAX_BYTES = 32768;
 const BINARY = /\.(png|jpe?g|gif|webp|avif|ico|svg|pdf|zip|gz|woff2?|ttf|otf|mp4|mov|webm|mp3)$/i;
-const SKIP_DIRS = ['.git', 'node_modules', '.superpowers', '.wrangler', 'tests'];
+const SKIP_DIRS = ['.git', 'node_modules', '.superpowers', '.wrangler'];
+const SKIP_PATHS = ['tests']; // the template's own test fixtures, top level only
 
 const SECRET_PATTERNS = [
-  ['GitHub token', /ghp_[A-Za-z0-9]{36}/],
+  ['GitHub token', /gh[pousr]_[A-Za-z0-9]{36}/],
   ['GitHub token', /github_pat_[A-Za-z0-9_]{22,}/],
   ['private key', /-----BEGIN [A-Z ]*PRIVATE KEY-----/],
   ['API key', /sk-ant-[A-Za-z0-9-]{20,}/],
   ['API key', /sk-[A-Za-z0-9]{20,}/],
   ['password or token', /(api[_-]?token|secret|password)\s*[:=]\s*['"][^'"\s]{12,}/i],
+  ['password or token', /^\s*(?:export\s+)?[A-Z0-9_]*(?:TOKEN|SECRET|PASSWORD|API_KEY)[A-Z0-9_]*\s*=\s*[^\s'"]{12,}/m],
 ];
 
 const dirs = (abs) =>
@@ -53,8 +55,12 @@ function checkSkillLinks(root) {
     let st;
     try { st = fs.lstatSync(abs); } catch { bad(name, `missing; create it with: ln -s ${want} ${LINKS}/${name}`); continue; }
     if (!st.isSymbolicLink()) {
-      bad(name, 'is a plain file, not a link (this happens on Windows). Fix: run "git config core.symlinks true", '
-        + 'then re-checkout ("git checkout -- .claude"), or run the update-from-template skill.');
+      problems.push({
+        rule: 'skill-link', file: `${LINKS}/${name}`, warning: true,
+        message: 'is a plain file, not a link (this happens on Windows). Skills still work: read them from '
+          + `${SKILLS}/${name}/SKILL.md. To fix properly, turn on Windows Developer Mode, run `
+          + '"git config core.symlinks true", then run the update-from-template skill.',
+      });
     } else if (fs.readlinkSync(abs) !== want) {
       bad(name, `points to "${fs.readlinkSync(abs)}" but should point to "${want}"`);
     }
@@ -140,7 +146,7 @@ function checkLocalLinks(root) {
 
 function checkSecrets(root) {
   const problems = [];
-  for (const rel of walk(root, { skip: SKIP_DIRS })) {
+  for (const rel of walk(root, { skip: SKIP_DIRS, skipPaths: SKIP_PATHS })) {
     if (BINARY.test(rel)) continue;
     const abs = path.join(root, rel);
     if (fs.lstatSync(abs).isSymbolicLink()) continue;
@@ -161,11 +167,16 @@ export function runChecks(rootDir) {
     ...checkAgentsSize(rootDir), ...checkAssetsDir(rootDir), ...checkLocalLinks(rootDir),
     ...checkSecrets(rootDir),
   ];
-  return { ok: problems.length === 0, problems };
+  return {
+    ok: problems.every((p) => p.warning),
+    problems: problems.filter((p) => !p.warning),
+    warnings: problems.filter((p) => p.warning),
+  };
 }
 
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
-  const { ok, problems } = runChecks(path.resolve(process.argv[2] ?? '.'));
+  const { ok, problems, warnings } = runChecks(path.resolve(process.argv[2] ?? '.'));
+  for (const w of warnings) console.log(`! ${w.file}: ${w.message}`);
   for (const p of problems) console.log(`✗ ${p.file}: ${p.message}`);
   if (ok) console.log('✓ all checks passed');
   process.exit(ok ? 0 : 1);

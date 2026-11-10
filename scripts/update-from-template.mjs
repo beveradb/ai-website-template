@@ -54,7 +54,13 @@ export function applyTemplate(siteDir, templateDir) {
       if (!same(before, after)) {
         if (before !== null) fs.rmSync(dest, { recursive: true, force: true });
         fs.mkdirSync(path.dirname(dest), { recursive: true });
-        fs.symlinkSync(linkTarget(rel), dest);
+        try {
+          fs.symlinkSync(linkTarget(rel), dest);
+        } catch (err) {
+          // Windows without Developer Mode can't create symlinks; leave a git-style pseudo-link.
+          if (err.code !== 'EPERM') throw err;
+          fs.writeFileSync(dest, linkTarget(rel));
+        }
       }
     } else {
       after = readEntry(src);
@@ -70,7 +76,9 @@ export function applyTemplate(siteDir, templateDir) {
 
   const keep = new Set(tplFiles);
   for (const rel of walk(siteDir, { skip: SKIP })) {
-    if (keep.has(rel) || !matchesAny(rel, siteOwned)) continue;
+    // Only delete files that both the old and the new template claim; anything the template
+    // has handed over to the site (no longer in templateOwned) now belongs to the site.
+    if (keep.has(rel) || !matchesAny(rel, siteOwned) || !matchesAny(rel, tplManifest.templateOwned)) continue;
     fs.rmSync(path.join(siteDir, rel), { force: true });
     removeEmptyParents(siteDir, rel);
     removed.push(rel);

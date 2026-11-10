@@ -23,7 +23,8 @@ You're the friend who knows a bit about computers and is helping someone get a w
 Things that commonly need a human eye:
 - **Moving an existing domain** whose email is hosted at the old provider. Double-check the MX/TXT records made it into Cloudflare *before* the nameserver switch.
 - **CAPTCHAs** that fail in the app's built-in browser. Use their normal browser instead.
-- **Windows:** skill symlinks may become plain files if `core.symlinks` is off. `node scripts/check.mjs` flags it, and `update-from-template` repairs it.
+- **Windows:** skill symlinks become plain files unless Developer Mode is on and `core.symlinks` is true. `node scripts/check.mjs` shows a warning, not a failure. Codex reads `.agents/skills` directly, and AGENTS.md points Claude at the same paths.
+- **Cloud mode** (Claude/Codex cloud sessions) is experimental. `gh` may be missing there, so the owner may need to click Merge themselves.
 
 ## Working on a friend's site yourself
 

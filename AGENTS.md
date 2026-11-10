@@ -23,8 +23,8 @@ The owner knows what they want their website to say and look like. They do not k
 ## 2. First thing in every session
 
 1. Read `SITE.md`. It's the map of this website: what's on it, where things live, how it's built.
-2. If `SETUP-PROGRESS.md` exists and has unticked steps, or this folder has no GitHub remote (`git remote -v` shows nothing), offer to continue setting up their website with the **setup** skill.
-3. Make sure you're up to date: `git checkout main && git pull`, unless you're in the middle of a draft they're still working on.
+2. If `SETUP-PROGRESS.md` exists and has unticked steps, or this folder isn't connected to GitHub yet (no `.git` folder, or `git remote -v` shows nothing), offer to continue setting up their website with the **setup** skill, and let it decide what to do. Don't run the steps below until setup is complete.
+3. Otherwise, make sure you're up to date: `git checkout main && git pull`, unless you're in the middle of a draft they're still working on.
 
 ## 3. How every change works
 
@@ -33,7 +33,7 @@ Every change, however small, goes through a draft and a preview. Nothing goes li
 1. Start a draft: `git checkout main && git pull && git checkout -b change/<short-description>`.
 2. Make the change. Keep to the existing design (see section 5).
 3. Run `node scripts/check.mjs`. Fix every problem it reports before going on.
-4. Save and share the draft: `git add -A && git commit -m "<what changed>" && git push -u origin HEAD`. The first time, also run `gh pr create --fill`.
+4. Save and share the draft. (In cloud mode without `gh`, use your app's GitHub tools to open the pull request instead.) `git add -A && git commit -m "<what changed>" && git push -u origin HEAD`. The first time, also run `gh pr create --fill`.
 5. Get the preview link. Cloudflare posts it on the draft, usually within 1–2 minutes. Run `gh pr checks --watch`, then find the preview URL in `gh pr view --comments`. It looks like `https://<something>.workers.dev`.
 6. Give them the link in one sentence, e.g. "Here's a preview of your change: <link>. Have a look, and tell me if you'd like anything different or if it's ready to go live."
 7. More changes to the same thing go on the same draft: repeat steps 2–6.
@@ -46,8 +46,8 @@ If they ask for something unrelated while a draft is open, finish or park the cu
 - **Never handle secrets.** Never ask for, type, read aloud, store, or put in any file: passwords, two-step codes, recovery codes, or API keys/tokens. If they offer one, stop them kindly: "Please don't share that with me. Type it straight into the website when it asks, and I'll wait." When a login or code is needed, open the page and let *them* type it.
 - **Never make anything live without their clear OK** after they've seen a preview.
 - **Never spend money** without telling them exactly what it is and how much it costs per year, and getting a clear yes.
-- **Never change email settings.** When working with domain settings, never touch MX or TXT records, and never remove existing records.
-- **Never push straight to `main`.** Always use a draft.
+- **Never break email.** When working with domain settings, never change or remove records that email depends on: MX, TXT (SPF/DKIM/DMARC/verification), and CNAME/SRV records for email (e.g. `*._domainkey`, `autodiscover`). Remove other records only when `domain.md` says so, after showing the owner.
+- **Never push straight to `main`.** Always use a draft. The only exception is the setup skill's one-time `repo` step, before anything is live.
 - **Don't redesign** beyond what they asked for. Suggest ideas, but don't apply them uninvited.
 - **Never copy** other people's text, photos, logos or distinctive designs. When asked to make something "like" another site, take the general structure and feel only.
 
@@ -78,6 +78,7 @@ This site was made from the template at https://github.com/beveradb/ai-website-t
 
 - **Don't edit template files to fix something for this one site.** Put site-specific facts in `SITE.md`. If a template file seems wrong, tell the owner it may need an update from the template or their helper.
 - Everything else belongs to this site: `site/`, `SITE.md`, `wrangler.jsonc`, `package.json`, `SETUP-PROGRESS.md`.
+- Never put site-specific files inside template folders (`scripts/`, `tests/`, `.agents/skills/`, `.githooks/`), or a template update may remove them. Use e.g. `tools/` for a site's own scripts.
 
 ## 8. When you're stuck
 

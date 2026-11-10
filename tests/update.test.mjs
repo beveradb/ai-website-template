@@ -111,3 +111,14 @@ test('result passes the repo checks', async () => {
   applyTemplate(site, tpl);
   assert.deepEqual(runChecks(site).problems, []);
 });
+
+test('a file the template hands over to the site is kept, not deleted', () => {
+  const { site, tpl } = pair();
+  write(site, 'README.md', 'my readme');
+  const m = JSON.parse(read(tpl, 'template-manifest.json'));
+  m.templateOwned = m.templateOwned.filter((g) => g !== 'README.md');
+  write(tpl, 'template-manifest.json', JSON.stringify(m));
+  const r = applyTemplate(site, tpl);
+  assert.equal(read(site, 'README.md'), 'my readme');
+  assert.ok(!r.removed.includes('README.md'));
+});

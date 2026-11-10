@@ -14,6 +14,8 @@ description: Use when the owner says a previewed change is ready to go live - "m
 
 ## Publish
 
+If the draft is marked as a GitHub "draft" pull request, run `gh pr ready` first.
+
 ```
 gh pr merge --squash --delete-branch
 git checkout main && git pull
