@@ -5,12 +5,14 @@ description: Use when the owner wants to give a helper (for example the friend w
 
 # Adding (or removing) a helper
 
-A helper can work on the website's files from their own computer. They **cannot** access the owner's GitHub account, Cloudflare account, domain or passwords, and nothing goes live without someone choosing to publish.
+A helper can work on the website's files from their own computer. They **cannot** access the owner's GitHub account, Cloudflare account, domain or passwords.
+
+Be honest about one thing: with this access, a helper **could** make changes live directly, without the owner seeing a preview first. GitHub's free plan can't block that for private websites. It works on trust: helpers agree to use drafts and previews like everyone else, and the owner can see every change and undo it.
 
 ## Add a helper
 
 1. Ask for the helper's **GitHub username**. The helper can tell them; it's not secret.
-2. Explain, then ask: "This lets <name> make changes to your website's files for you. They won't be able to get into your accounts, and you can remove them at any time. Shall I add them?"
+2. Explain, then ask: "This lets <name> make changes to your website for you. They won't be able to get into your accounts. They'll normally show you a preview first, but they *could* put changes live themselves, so only add someone you trust. You can remove them at any time. Shall I add them?"
 3. On a clear yes:
    `gh api -X PUT repos/{owner}/{repo}/collaborators/<username> -f permission=push`
 4. Tell them: "Done. <name> will get an email invitation from GitHub and needs to accept it."

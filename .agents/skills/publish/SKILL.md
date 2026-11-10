@@ -29,7 +29,9 @@ git checkout main && git pull
 
 ## Check it's live
 
-1. Cloudflare publishes the change, usually within 1–2 minutes. Watch with `gh run list --limit 1` or `gh api repos/{owner}/{repo}/commits/main/check-runs`, or load the live page and look for the change.
-2. The live address is in `SITE.md` under `## Notes` (their domain), or ask Cloudflare's dashboard.
-3. Tell them: "Done! Your change is live at <address>. It may take a minute to show up. If you don't see it, refresh the page."
-4. If the live build failed, say so plainly. Then look at the failure (`gh run view --log-failed`, or the Cloudflare dashboard build log), fix it on a new draft, and preview again. The live site stays as it was until a good build succeeds.
+Cloudflare publishes the change, usually within 1–2 minutes. Don't say it's live until you've confirmed it:
+
+1. Wait for Cloudflare's build of `main` to finish. Cloudflare reports it as a check on the latest commit: `gh api repos/{owner}/{repo}/commits/main/check-runs --jq '.check_runs[] | [.name, .status, .conclusion] | @tsv'`. Wait for the Cloudflare entry to show `completed` and `success`. (The site's own "Check site" entry is the safety check, not the publish.)
+2. Then confirm on the real site. The live address is in `SITE.md` under `## Notes`. Load the changed page (e.g. `curl -s <address>/<page> | grep "<some new text>"`) and check the change is there.
+3. Only then tell them: "Done! Your change is live at <address>. If you don't see it straight away, refresh the page."
+4. If the Cloudflare check failed, or the change isn't showing after ~5 minutes, say so plainly. The live site stays as it was. Look at the build log in the Cloudflare dashboard (Worker → Deployments / Builds), fix it on a new draft, and preview again.

@@ -11,6 +11,7 @@ You're guiding someone who may never have heard of GitHub or Cloudflare. Go slow
 - Signing up, passwords, two-step codes, CAPTCHAs and payment details are always typed by **the owner**. Open the page in the browser and explain what to do, then wait. Never fill these in yourself, and never ask them to tell you any of them.
 - GitHub forbids accounts created by bots, so the owner must create accounts themselves.
 - If your app has a built-in browser, use it so you can see the page and guide them. Otherwise, give them the link and ask them to describe or screenshot what they see.
+- **Except** for screens that show secrets: password entry, two-step QR codes and setup keys, and recovery or backup codes. Have the owner do those in **their own normal browser**, where you can't see them. Describe the steps in words, and never ask for a screenshot of those screens.
 
 ## Progress file
 
@@ -39,8 +40,8 @@ Domain:
 - [ ] cloudflare-security: Cloudflare account secured
 - [ ] cloudflare-connect: Cloudflare connected to GitHub
 - [ ] first-version: First version of the website
+- [ ] live: Website live (on its free address)
 - [ ] domain: Domain name
-- [ ] live: Website live
 - [ ] cloud-mode: (optional) Editing from anywhere
 - [ ] helper: (optional) Helper access
 - [ ] handover: How to look after your website
@@ -56,10 +57,11 @@ Check you can run commands in this folder, e.g. `pwd`. If you can't, you're in p
 - **ChatGPT app:** switch to **Codex**, choose **Local**, and pick this folder.
 
 ### tools
-Check `git --version` and `gh --version`.
+Check `git --version`, `gh --version` and `node --version` (Node 20 or newer, which runs the site's safety check).
 - **Mac, no git:** running `git --version` pops up an "install command line developer tools" box. Tell them to click **Install**, accept, and wait (5–15 minutes).
 - **Mac, no gh:** download the latest macOS `.pkg` from https://github.com/cli/cli/releases/latest (the `gh_*_macOS_universal.pkg` asset). Open it and ask them to click through the installer. Then check `gh --version`, opening a new terminal session if needed (`/usr/local/bin/gh`).
-- **Windows:** `winget install --id Git.Git -e` and `winget install --id GitHub.cli -e`. Accept the prompts. Restart the app's session so the new commands are found.
+- **Mac, no node (or older than 20):** download the **LTS** macOS installer (`.pkg`) from https://nodejs.org/en/download, open it, and ask them to click through.
+- **Windows:** `winget install --id Git.Git -e`, `winget install --id GitHub.cli -e` and `winget install --id OpenJS.NodeJS.LTS -e`. Accept the prompts. Restart the app's session so the new commands are found.
 
 ### github-account
 Ask: "Do you already have a GitHub account?" If yes, ask for the username, record it, and skip to **github-security**.
@@ -114,15 +116,14 @@ Follow `accounts-and-security.md` (Cloudflare section).
 Follow `cloudflare.md`. At the end, the website has a free `…workers.dev` address and every draft gets its own preview link.
 
 ### first-version
-Use the **create-site** skill on the `change/first-version` draft, including sharing preview links, until they're happy. Don't publish yet.
-
-### domain
-Follow `domain.md`.
+Use the **create-site** skill on the `change/first-version` draft, including sharing preview links, until they're happy. Don't publish yet. Include the free `workers.dev` address (from `SETUP-PROGRESS.md`) in `SITE.md` under `## Notes`, so **publish** knows where to check.
 
 ### live
-1. Use the **publish** skill to make the first version live.
-2. Open the real address together.
-3. Celebrate! 🎉
+1. Use the **publish** skill to make the approved first version live. It goes to the free `workers.dev` address.
+2. Open it together. Celebrate! 🎉
+
+### domain
+Follow `domain.md`. Only do this after **live**, so the domain shows the real site, not the placeholder.
 
 ### cloud-mode (optional)
 Offer: "Would you like to be able to ask for changes from your phone or another computer, without this computer? It's optional. Most changes are easiest from here."

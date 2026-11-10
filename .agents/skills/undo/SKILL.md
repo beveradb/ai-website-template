@@ -17,7 +17,7 @@ First work out which situation this is. Ask if unclear: "Do you mean the change 
 
 1. Find the change: `git log --oneline -15 main`. Describe the recent changes in plain words and confirm which one.
 2. Start a draft: `git checkout main && git pull && git checkout -b change/undo-<short-description>`.
-3. `git revert --no-edit <commit>`. If it conflicts, resolve it so the result matches the site *before* that change.
+3. `git revert --no-edit <commit>`. If it conflicts, it's because later changes touched the same place. Undo **only** the chosen change and keep every later change. If you can't tell how to combine them, stop, explain the overlap to the owner in plain words, and ask what they want the result to look like. Check the preview carefully for anything else that changed.
 4. Run `node scripts/check.mjs`, push, open the draft, and share the preview link (AGENTS.md section 3): "Here's a preview of your website with that change undone."
 5. When they confirm, use the **publish** skill.
 

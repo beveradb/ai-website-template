@@ -1,6 +1,8 @@
 # Account security and recovery
 
-The goal: if they forget a password or lose their phone, they can still get back in, and nobody else can. Do these with every new or existing account during setup. Ask them to confirm each step ("Done?"), and **never** ask them to tell or paste you anything.
+The goal: if they forget a password or lose their phone, they can still get back in, and nobody else can.
+
+**Do these steps in the owner's own normal browser, not your built-in browser.** QR codes, setup keys and recovery codes are secrets, and you must not see them. Guide them in words, one step at a time, and wait for "done". Do these with every new or existing account during setup. Ask them to confirm each step ("Done?"), and **never** ask them to tell or paste you anything.
 
 ## 0. A password manager (once)
 

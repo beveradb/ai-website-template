@@ -18,9 +18,10 @@ A domain is the website's address, like `janesmithpottery.com`. Ask: "Do you alr
    - **SRV** records
 
    Cloudflare's import often misses some. Add any that are missing before continuing, copied exactly. The only records to remove are old *website* records at the root (`@`) or `www` that would clash with the new site, and only after showing the owner.
-6. Cloudflare shows two **nameservers**. Open their registrar's website (they sign in) and help them find **Nameservers** (sometimes under DNS or Advanced). Change it to "custom" and enter Cloudflare's two.
-7. Wait for Cloudflare to say the domain is **Active**. This can take from minutes to a few hours, so they can come back later. Note in `SETUP-PROGRESS.md` that you're waiting.
-8. Then attach the domain to the site (see "Attach the domain" below).
+6. **Check DNSSEC first.** Run `dig +short DS <domain>` (Mac) or `Resolve-DnsName <domain> -Type DS` (Windows), or look for "DNSSEC" in the registrar's settings. If it's on, have them **turn DNSSEC off at the registrar** and wait **at least 24 hours** before changing nameservers. Switching while it's on can take the website *and email* offline. Note the wait in `SETUP-PROGRESS.md`. After the domain is Active in Cloudflare, turn DNSSEC back on there (**DNS → Settings → DNSSEC**) and add the DS record it shows at the registrar.
+7. Cloudflare shows two **nameservers**. Open their registrar's website (they sign in) and help them find **Nameservers** (sometimes under DNS or Advanced). Change it to "custom" and enter Cloudflare's two.
+8. Wait for Cloudflare to say the domain is **Active**. This can take from minutes to a few hours, so they can come back later. Note in `SETUP-PROGRESS.md` that you're waiting.
+9. Then attach the domain to the site (see "Attach the domain" below).
 
 If the domain is with Wix or Squarespace and its email is through them, be extra careful with step 5. If unsure, suggest asking their helper before switching.
 

@@ -171,3 +171,17 @@ test('skill-link: Windows plain-file link is a warning, not a failure', () => {
   assert.equal(r.ok, true);
   assert.ok(r.warnings.some((w) => w.rule === 'skill-link' && /Developer Mode/.test(w.message)));
 });
+
+test('local-links: malformed percent-escape does not crash the check', () => {
+  const root = validRepo();
+  write(root, 'site/index.html', '<a href="100%.html">x</a>');
+  assert.doesNotThrow(() => runChecks(root));
+  assert.ok(rules(root).includes('local-links'));
+});
+test('secrets: an unreadable entry (broken symlink) is skipped, not a crash', () => {
+  const root = validRepo();
+  fs.symlinkSync('does-not-exist', path.join(root, 'site/broken'));
+  fs.mkdirSync(path.join(root, 'site/x'));
+  fs.writeFileSync(path.join(root, 'site/x/unreadable.txt'), 'hi', { mode: 0o000 });
+  assert.doesNotThrow(() => runChecks(root));
+});

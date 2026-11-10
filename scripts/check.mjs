@@ -128,7 +128,9 @@ function checkLocalLinks(root) {
     const html = fs.readFileSync(path.join(siteRoot, rel), 'utf8');
     for (const [, ref] of html.matchAll(/\s(?:href|src)\s*=\s*["']([^"']*)["']/gi)) {
       if (!ref || /^([a-z][a-z0-9+.-]*:|\/\/|#)/i.test(ref)) continue;
-      const clean = decodeURIComponent(ref.split(/[?#]/)[0]);
+      const rawRef = ref.split(/[?#]/)[0];
+      let clean;
+      try { clean = decodeURIComponent(rawRef); } catch { clean = rawRef; }
       if (!clean) continue;
       let target = clean.startsWith('/')
         ? path.join(siteRoot, clean)
@@ -150,7 +152,8 @@ function checkSecrets(root) {
     if (BINARY.test(rel)) continue;
     const abs = path.join(root, rel);
     if (fs.lstatSync(abs).isSymbolicLink()) continue;
-    const text = fs.readFileSync(abs, 'utf8');
+    let text;
+    try { text = fs.readFileSync(abs, 'utf8'); } catch { continue; }
     for (const [label, re] of SECRET_PATTERNS) {
       if (re.test(text)) {
         problems.push({ rule: 'secrets', file: rel, message: `looks like it contains a ${label}. Remove it — secrets must never be saved in the site.` });

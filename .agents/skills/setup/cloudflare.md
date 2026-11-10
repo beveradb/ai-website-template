@@ -19,12 +19,8 @@ No passwords or keys are handled: Cloudflare and GitHub connect through their ow
    - **Deploy command:** `npx wrangler deploy` (the default).
    - **Builds for non-production branches / Preview builds:** make sure this is **enabled**. It creates the preview links.
 6. Click **Create and deploy** (or **Deploy**). The first build takes a minute or two. It publishes the starter placeholder to a free `workers.dev` address only. Their real domain isn't connected yet, so this is fine.
-7. Note the free address it shows (`https://<site-name>.<their-subdomain>.workers.dev`), and add it to `SITE.md` under `## Notes`.
-8. **Check previews work:**
-   1. Open the draft for `change/first-version` with `gh pr create --fill` if not already open.
-   2. Wait for `gh pr checks --watch`.
-   3. Find the preview URL in `gh pr view --comments`.
-   4. If no preview appears after ~5 minutes, go back to the Worker's **Settings → Build** and turn on builds for non-production branches, then push again.
+7. Note the free address it shows (`https://<site-name>.<their-subdomain>.workers.dev`) in `SETUP-PROGRESS.md`. It goes into `SITE.md` with the first version.
+8. Previews are checked the first time a draft is shared, in **first-version**. If no preview link appears within ~5 minutes of opening the first draft, come back here: in the Worker's **Settings → Build**, turn on builds for non-production branches, then push the draft again.
 
 ## Editing from anywhere (optional "cloud mode", experimental)
 
