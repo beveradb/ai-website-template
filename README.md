@@ -31,7 +31,7 @@ You ask for a change in the Claude or ChatGPT app
 ## Development
 
 ```
-node --test tests/
+node --test
 node scripts/check.mjs
 ```
 

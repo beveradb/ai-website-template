@@ -43,7 +43,7 @@ You don't need, and shouldn't ask for, access to their Cloudflare or GitHub acco
 
 When you fix something that every site would benefit from:
 
-1. Make the change in this template repo, on a branch, with tests where it's code (`node --test tests/`, `node scripts/check.mjs`).
+1. Make the change in this template repo, on a branch, with tests where it's code (`node --test`, `node scripts/check.mjs`).
 2. Bump `"version"` in `template-manifest.json` (semver: patch for wording fixes, minor for new skills or behaviour).
 3. Add a dated entry at the top of `docs/LESSONS.md` saying what changed and why, in plain words. The assistant reads these to owners when updating.
 4. If you add a new template-owned file outside the existing globs, add it to `templateOwned` in `template-manifest.json`.

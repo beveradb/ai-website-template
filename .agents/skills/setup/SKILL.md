@@ -105,7 +105,7 @@ Run `gh auth status`. If it's not signed in:
    - delete `docs/superpowers/` (the template's own build notes)
    - set `"name"` in `wrangler.jsonc` and `package.json` to the site name. Cloudflare's build fails if it doesn't match.
 
-   Then run `git commit -am "Set up <site-name>" && git push`.
+   Then commit, but only if `git status --porcelain` shows changes (it won't if an earlier attempt already committed): `git commit -am "Set up <site-name>"`. Then **always** run `git push`, which is safe to repeat.
 6. Turn on the safety check that stops passwords or tokens being uploaded: `git config core.hooksPath .githooks`.
 7. Start the first draft: `git checkout -b change/first-version && git push -u origin HEAD`.
 

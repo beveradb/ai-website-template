@@ -19,7 +19,7 @@ A domain is the website's address, like `janesmithpottery.com`. Ask: "Do you alr
 
    Cloudflare's import often misses some. Add any that are missing before continuing, copied exactly.
    - **Mail records must be "DNS only"** (grey cloud, not orange). That includes `mail`, `autodiscover`, and any name an MX record points to. A proxied mail hostname stops email working.
-   - If an **MX record points at the domain itself** (`@`) or at `www`, stop and ask their helper. That setup needs mail moving to its own hostname first.
+   - If an **MX record points at the domain itself** (`@`) or at `www`, or at a name that is itself a CNAME to `@` or `www` (follow the chain), stop and ask their helper. That setup needs mail moving to its own hostname first.
    - **Keep the old website records for now.** They're replaced in "Attach the domain", so the site stays reachable in between.
 6. **Check DNSSEC first.** Run `dig +short DS <domain>` (Mac) or `Resolve-DnsName <domain> -Type DS` (Windows), or look for "DNSSEC" in the registrar's settings. If it's on, have them **turn DNSSEC off at the registrar**. Then wait until `dig +short DS <domain>` returns nothing, plus at least another 24–48 hours for old copies to expire, before changing nameservers. Switching while it's on can take the website *and email* offline. Note the wait in `SETUP-PROGRESS.md`. After the domain is Active in Cloudflare, turn DNSSEC back on there (**DNS → Settings → DNSSEC**) and add the DS record it shows at the registrar.
 7. Cloudflare shows two **nameservers**. Open their registrar's website (they sign in) and help them find **Nameservers** (sometimes under DNS or Advanced). Change it to "custom" and enter Cloudflare's two.

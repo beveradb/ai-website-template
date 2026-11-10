@@ -21,7 +21,7 @@ They can combine these, e.g. rebuild their old site and give it the feel of anot
 
 **Rebuild (2):**
 1. Fetch the home page, then every page linked from it on the same domain, following links up to a few levels deep. Skip shop, cart, login, admin, and tag/archive listing pages.
-2. Save the real text content of each page.
+2. Save the real text content of each page. **Check it's theirs to use:** ask the owner about anything that looks like someone else's, e.g. stock photos, testimonials quoted from elsewhere, or other people's logos. Leave out or replace anything that isn't theirs.
 3. Download the images that are part of the content (not tracking pixels or icons from other sites) into `site/images/` with tidy names.
 4. Note the colours, fonts, layout and overall mood.
 5. Keep a list of anything that can't be carried over to a simple website: online shops, booking systems, member logins, comments, forms that send email. Tell the owner about these, and suggest simple replacements, e.g. a "book with me" link to a booking service, or an email link instead of a form.
