@@ -8,7 +8,7 @@ No passwords or keys are handled: Cloudflare and GitHub connect through their ow
 
 ## Steps
 
-1. Open https://dash.cloudflare.com and let them sign in.
+1. Open https://dash.cloudflare.com and let them sign in. If `SETUP-PROGRESS.md` names a `Cloudflare account:`, switch to it with the account switcher at the top left first.
 2. In the left menu, open **Compute** (it may say **Workers & Pages**) and click **Create** (or **Create application**).
 3. Choose **Connect GitHub** (it may say **Import a repository** or **Connect to Git**).
 4. GitHub may ask them to sign in, then to approve **Cloudflare Workers and Pages**. If Cloudflare was connected to their GitHub before, this screen is skipped, which is fine. Tell them to choose **Only select repositories**, pick the site (`<site-name>`), and click **Install & Authorize**. This gives Cloudflare access to just this website.

@@ -138,7 +138,15 @@ Run `gh auth status`.
 Tell them: "Your website's files are now safely stored in your GitHub account."
 
 ### cloudflare-account
-Ask if they already have one. If not, open https://dash.cloudflare.com/sign-up. They type their email and a password saved by their password manager, then confirm the email. If asked what they want to do, choose the free plan and skip optional steps.
+First ask: "Will your website live in **your own** Cloudflare account, or in **someone else's** (for example, a family member's who looks after your domain)?"
+
+**Someone else's account:** they never share a password. Instead:
+1. The account holder invites the owner: in Cloudflare, **Manage Account → Members → Invite**, with the owner's email. They choose a role that lets them manage Workers and DNS (Administrator, or a narrower Workers + DNS role if offered).
+2. The owner signs in to Cloudflare with **their own** login. If they have none, they sign up (ideally "Continue with Google"). Then they accept the invitation from the email, or from the notice in the dashboard.
+3. Every Cloudflare step from here on happens **inside that account**: use the account switcher at the top left of the dashboard to pick it. Record the account's name (not any email) in `SETUP-PROGRESS.md` as `Cloudflare account:`.
+4. Secure their own Cloudflare login as in **cloudflare-security**. Then carry on with **cloudflare-connect**. The GitHub approval there happens while they're signed in to their own GitHub, so it links **their** GitHub repository to the shared account.
+
+**Their own account:** ask if they already have one. If not, open https://dash.cloudflare.com/sign-up. They type their email and a password saved by their password manager, then confirm the email. If asked what they want to do, choose the free plan and skip optional steps.
 
 ### cloudflare-security
 Follow `accounts-and-security.md` (Cloudflare section).
