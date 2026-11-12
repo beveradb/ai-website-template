@@ -12,7 +12,7 @@ const scriptsDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '.
 /** Run a script through a symlinked path, like macOS's /var -> /private/var temp folder. */
 function runViaSymlink(script, args) {
   const link = path.join(fs.mkdtempSync(path.join(os.tmpdir(), 'aiwt-link-')), 'scripts');
-  fs.symlinkSync(scriptsDir, link);
+  fs.symlinkSync(scriptsDir, link, process.platform === 'win32' ? 'junction' : 'dir');
   return spawnSync(process.execPath, [path.join(link, script), ...args], { encoding: 'utf8' });
 }
 
