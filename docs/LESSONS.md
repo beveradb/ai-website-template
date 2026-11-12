@@ -2,6 +2,11 @@
 
 Newest first. Each entry: what changed in the template, and why. Assistants read the entries newer than a site's current version when running **update-from-template**, and summarise them for the owner.
 
+## 2026-11-11 v0.1.2: Updater works from any folder
+
+- The update and check scripts silently did nothing when run from a folder reached through a shortcut, such as the Mac's temporary folder. They now work from anywhere. (Found by an assistant during the first template update.)
+- Preview link rule corrected: every character that isn't a letter or number becomes a dash, including dots.
+
 ## 2026-11-11 v0.1.1: Fixes from the first real test
 
 - **Preview links now work.** Cloudflare's preview builds need a `"previews": {}` block in `wrangler.jsonc`, and a current Wrangler (now listed in `package.json`). Without them, every draft's preview failed.

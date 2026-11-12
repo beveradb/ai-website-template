@@ -3,8 +3,7 @@
 // Usage: node scripts/check.mjs [repoDir]
 import fs from 'node:fs';
 import path from 'node:path';
-import { fileURLToPath } from 'node:url';
-import { walk } from './lib/manifest.mjs';
+import { walk, isMain } from './lib/manifest.mjs';
 
 const SKILLS = '.agents/skills';
 const LINKS = '.claude/skills';
@@ -177,7 +176,7 @@ export function runChecks(rootDir) {
   };
 }
 
-if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+if (isMain(import.meta.url)) {
   const { ok, problems, warnings } = runChecks(path.resolve(process.argv[2] ?? '.'));
   for (const w of warnings) console.log(`! ${w.file}: ${w.message}`);
   for (const p of problems) console.log(`✗ ${p.file}: ${p.message}`);

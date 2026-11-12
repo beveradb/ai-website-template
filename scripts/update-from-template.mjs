@@ -4,8 +4,7 @@
 // Only files listed as template-owned (in either manifest) are touched; site files are never changed.
 import fs from 'node:fs';
 import path from 'node:path';
-import { fileURLToPath } from 'node:url';
-import { loadManifest, matchesAny, walk } from './lib/manifest.mjs';
+import { loadManifest, matchesAny, walk, isMain } from './lib/manifest.mjs';
 
 const SKIP = ['.git', 'node_modules', '.superpowers', '.wrangler'];
 const LINK_DIR = '.claude/skills/';
@@ -87,7 +86,7 @@ export function applyTemplate(siteDir, templateDir) {
   return { from, to: tplManifest.version, added, updated, removed };
 }
 
-if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+if (isMain(import.meta.url)) {
   const [templateDir, siteDir = '.'] = process.argv.slice(2);
   if (!templateDir) {
     console.error('Usage: node scripts/update-from-template.mjs <extractedTemplateDir> [siteDir]');
