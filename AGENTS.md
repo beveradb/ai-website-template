@@ -65,6 +65,8 @@ Some steps need a website like GitHub or Cloudflare. In order of preference:
 2. **The website browser** (`website-browser`, set up in `.mcp.json` / `.codex/config.toml`) if the built-in browser can't sign in (e.g. "verification failed"), or doesn't exist. It's a real Chrome window on their computer that remembers their logins, so they only sign in once. The owner types their own password and codes in it, and you do the clicking afterwards. If it isn't available, ask the owner to approve or enable the `website-browser` tool in the app. If Chrome isn't installed, help them install it from google.com/chrome.
 3. Only as a last resort, guide them through the steps in their own browser in words.
 
+Only one session can use the website browser at a time. Close it (the browser close tool) as soon as you're done. If it says the browser or profile is already in use, ask the owner to finish or close their other assistant chat that's using it, then try again.
+
 Before acting in any browser, check **which account** it's signed in to (GitHub and Google can have several). Never act as the wrong account.
 
 ## 6. Keeping the site consistent

@@ -54,7 +54,16 @@ Start by telling them the plan in 3–4 lines: "We'll set up two free accounts (
 If the website already exists and someone has added this person to it (a helper set it up, they're using a new computer, or they share a site), don't make a new one:
 1. Do **app-mode**, **tools**, **github-account**, **github-security** and **gh-signin** as below.
 2. If they were invited, accept the invitation: open https://github.com/notifications or the invitation email in the browser, and they click **Accept**.
-3. Put the site in this folder: `gh repo clone <owner>/<site> .` (the folder must be empty apart from the downloaded template; clear those files first after checking with the owner), then `git config core.hooksPath .githooks`, and set the git name and email as in **repo** step 4.
+3. Turn this folder into the site, keeping `SETUP-PROGRESS.md`. It's ignored by git, so these commands leave it alone:
+   ```
+   git init -b main
+   git remote add origin https://github.com/<owner>/<site>.git
+   git fetch origin
+   git reset --hard origin/main
+   git branch --set-upstream-to=origin/main main
+   git clean -fd
+   ```
+   The last command removes leftover template files the site doesn't use. Then run `git config core.hooksPath .githooks`, and set the git name and email as in **repo** step 4.
 4. Read `SITE.md`, then skip to **handover**, adapting it to an existing site.
 
 Use a shorter checklist in `SETUP-PROGRESS.md` for this: app-mode, tools, github-account, github-security, gh-signin, join, handover.
@@ -94,8 +103,9 @@ Follow `accounts-and-security.md` (GitHub section). Don't skip it. This is what 
 
 ### gh-signin
 Run `gh auth status`.
-- **Signed in to several accounts?** Check which one is active. If it isn't the owner's, explain in plain words, then run `gh auth switch --user <their username>` after they agree. This changes the default for the whole computer, so say so.
-- **Not signed in:**
+- **Always check the active account is the owner's:** `gh api user -q .login` must equal the GitHub username in `SETUP-PROGRESS.md`. Otherwise everything would be created in someone else's account.
+- **The owner's account is signed in but not active:** explain in plain words, then run `gh auth switch --user <their username>` after they agree. This changes the default for the whole computer, so say so.
+- **The owner's account isn't signed in at all** (not signed in, or only someone else's account is):
 1. Run `gh auth login --web --git-protocol https --hostname github.com`.
 2. It shows a one-time code and opens the browser. Say: "Your browser is asking you to confirm. Type in the code shown here (it's just a pairing code, not a password), then click **Authorize**."
 3. Then run `gh auth setup-git`.

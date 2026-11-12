@@ -6,8 +6,14 @@ A domain is the website's address, like `janesmithpottery.com`. Ask: "Do you alr
 
 Check first: if the domain shows under **Domains** in their Cloudflare dashboard and is **Active**, skip the nameserver steps below.
 1. List its records (**DNS → Records**) and note the email ones (MX, TXT, `_domainkey`, `autodiscover`). Don't touch them.
-2. If an old website (another Worker or Pages project) is attached, find it in **Workers & Pages** → that project → **Domains** (or **Custom domains**). Remove each domain from the old project and **immediately** add it to the new one ("Attach the domain" below), one domain at a time, so the gap is seconds. Do this only after the owner agrees, and list every domain and subdomain you'll move first.
-3. Check each address loads the new site, and that the MX records are unchanged.
+2. **Mail check:** follow each MX record's target, and any CNAME it points through. If any of them is the domain itself (`@`) or `www`, stop and ask their helper. Attaching the website there would break email.
+3. List every domain and subdomain the website should answer on, and get the owner's OK.
+4. For each one, in turn:
+   - If an old website (another Worker or Pages project) has it, remove it there (**Workers & Pages** → that project → **Domains** / **Custom domains**).
+   - Then **immediately** attach it to the new site ("Attach the domain" below). If it was pointed at an outside website by DNS records instead, that step replaces those records.
+
+   One at a time keeps the gap to seconds.
+5. Check each address loads the new site, and that the MX records are unchanged.
 
 ## They already own one, elsewhere
 

@@ -1,4 +1,4 @@
 # Codex reads this once the project is trusted. Same browser as .mcp.json (Claude).
 [mcp_servers.website-browser]
 command = "node"
-args = ["-e", "const{spawn}=require('child_process'),p=require('path'),os=require('os');const c=spawn('npx',['-y','@playwright/mcp@0.0.85','--browser','chrome','--user-data-dir',p.join(os.homedir(),'.website-assistant','browser-profile'),'--output-dir',p.join(os.homedir(),'.website-assistant','output')],{stdio:'inherit',shell:process.platform==='win32'});c.on('exit',x=>process.exit(x??0));"]
+args = ["-e", "const{spawn}=require('child_process'),p=require('path'),os=require('os');const w=process.platform==='win32',q=a=>w?JSON.stringify(a):a;const c=spawn('npx',['-y','@playwright/mcp@0.0.85','--browser','chrome','--user-data-dir',p.join(os.homedir(),'.website-assistant','browser-profile'),'--output-dir',p.join(os.homedir(),'.website-assistant','output')].map(q),{stdio:'inherit',shell:w});c.on('exit',x=>process.exit(x??0));"]
