@@ -29,6 +29,14 @@ Things that commonly need a human eye:
 - **Windows:** skill symlinks become plain files unless Developer Mode is on and `core.symlinks` is true. `node scripts/check.mjs` shows a warning, not a failure. Codex reads `.agents/skills` directly, and AGENTS.md points Claude at the same paths.
 - **Cloud mode** (Claude/Codex cloud sessions) is experimental. `gh` may be missing there, so the owner may need to click Merge themselves.
 
+## Hosting a friend's site in your Cloudflare account
+
+If you'd rather keep their domain and hosting in **your** Cloudflare account (e.g. family), while the site and its files are in **their** GitHub:
+1. Invite them under **Manage Account → Members → Invite**. Prefer the narrowest roles that cover Workers plus DNS for their domain. Administrator (or Workers Platform Admin) means account-wide access to every domain and billing, so only use it if you're comfortable with that.
+2. In setup they answer "someone else's account". They sign in with their own Cloudflare login, accept the invite, and connect **their** GitHub from inside your account.
+
+You can remove them from Members at any time. Their GitHub stays theirs.
+
 ## Working on a friend's site yourself
 
 If they've added you with the **add-helper** skill, you're a collaborator on their repo:
