@@ -32,7 +32,7 @@ Things that commonly need a human eye:
 ## Hosting a friend's site in your Cloudflare account
 
 If you'd rather keep their domain and hosting in **your** Cloudflare account (e.g. family), while the site and its files are in **their** GitHub:
-1. Invite them under **Manage Account → Members → Invite**, with a role that covers Workers and DNS.
+1. Invite them under **Manage Account → Members → Invite**. Prefer the narrowest roles that cover Workers plus DNS for their domain. Administrator (or Workers Platform Admin) means account-wide access to every domain and billing, so only use it if you're comfortable with that.
 2. In setup they answer "someone else's account". They sign in with their own Cloudflare login, accept the invite, and connect **their** GitHub from inside your account.
 
 You can remove them from Members at any time. Their GitHub stays theirs.

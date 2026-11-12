@@ -141,7 +141,7 @@ Tell them: "Your website's files are now safely stored in your GitHub account."
 First ask: "Will your website live in **your own** Cloudflare account, or in **someone else's** (for example, a family member's who looks after your domain)?"
 
 **Someone else's account:** they never share a password. Instead:
-1. The account holder invites the owner: in Cloudflare, **Manage Account → Members → Invite**, with the owner's email. They choose a role that lets them manage Workers and DNS (Administrator, or a narrower Workers + DNS role if offered).
+1. The account holder invites the owner: in Cloudflare, **Manage Account → Members → Invite**, with the owner's email. They choose the **narrowest role that covers Workers and DNS for this domain**, e.g. a domain-scoped DNS role plus Workers access, if offered. Roles like Administrator or Workers Platform Admin give access to the *whole* account (all domains and billing). Only use one if the account holder understands that, and is comfortable with it.
 2. The owner signs in to Cloudflare with **their own** login. If they have none, they sign up (ideally "Continue with Google"). Then they accept the invitation from the email, or from the notice in the dashboard.
 3. Every Cloudflare step from here on happens **inside that account**: use the account switcher at the top left of the dashboard to pick it. Record the account's name (not any email) in `SETUP-PROGRESS.md` as `Cloudflare account:`.
 4. Secure their own Cloudflare login as in **cloudflare-security**. Then carry on with **cloudflare-connect**. The GitHub approval there happens while they're signed in to their own GitHub, so it links **their** GitHub repository to the shared account.
