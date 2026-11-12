@@ -27,19 +27,18 @@ Find out which mode you're in. If you can run commands in the site folder on the
 1. Open the images folder for them: `open site/images` (Mac) or `explorer site\images` (Windows).
 2. Say: "I've opened your website's photos folder. Drag your photos into it, then tell me when you're done."
 3. Look for new files. Give them sensible lowercase names with hyphens, e.g. `garden-party-2026.jpg`. Never use spaces.
-4. Shrink large photos to at most 2000px on the long edge:
-   - Mac: `sips -Z 2000 site/images/<file>`
-   - Windows: use PowerShell with `System.Drawing` to scale and save the image to the same path.
-5. Convert iPhone `.heic` photos to `.jpg`:
-   - Mac: `sips -s format jpeg in.heic --out out.jpg`
-   - Windows: ask them to export the photo as JPEG.
-6. Add the photo to the page with good `alt` text. If you can't tell what's in the photo, ask them.
+4. **Keep the original safe first:** `mkdir -p photo-originals && cp site/images/<file> photo-originals/`. That folder is outside the published site and never uploaded.
+5. Then work on the copy in `site/images/`:
+   - **iPhone `.heic` photos:** convert them to `.jpg`. On a Mac, run `sips -s format jpeg site/images/in.heic --out site/images/out.jpg`, then delete the `.heic` from `site/images`. On Windows, ask them to export the photo as JPEG.
+   - **Shrink large photos** to at most 2000px on the long edge. On a Mac, run `sips -Z 2000 site/images/<file>`. On Windows, use PowerShell with `System.Drawing` to scale and save the image to the same path.
+6. Make sure `.gitignore` contains `photo-originals/`, `*.heic` and `*.HEIC`. Add any that are missing.
+7. Add the photo to the page with good `alt` text. If you can't tell what's in the photo, ask them.
 
 **Cloud mode** (you can't see their computer):
 1. Your chat attachments may not be saved as files. Don't rely on them.
 2. Push the draft first, then send them the upload page: `https://github.com/<owner>/<repo>/upload/<draft-branch>/site/images`.
 3. Say: "Open this link, drag your photos onto the page, then click the green **Commit changes** button. Tell me when that's done."
-4. Pull the draft (`git pull`), then continue from step 3 of local mode.
+4. Pull the draft (`git pull`), then continue from step 3 of local mode. Note that in cloud mode the original photo stays in the draft's history and may briefly appear on a preview link. That's fine for ordinary photos, but suggest local mode for anything private.
 
 ## New page
 

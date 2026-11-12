@@ -2,6 +2,10 @@
   // Cloudflare settings for this website.
   // "name" is set by the setup skill to the site's name (lowercase, hyphens).
   "name": "my-website",
+  // Every draft gets its own preview link (Workers Builds runs `npx wrangler preview`, which needs this block).
+  "previews": {},
+  "workers_dev": true,
+  "preview_urls": true,
   "compatibility_date": "2026-11-01",
   "assets": {
     // The folder that gets published. Plain HTML sites use ./site;

@@ -41,11 +41,14 @@ You don't need, and shouldn't ask for, access to their Cloudflare or GitHub acco
 
 ## Improving the template
 
+Heads-up: `AGENTS.md` here is written for friends' assistants. When you open *this* repo in Claude Code or Codex, it loads as instructions too. Tell your assistant you're developing the template, not editing a friend's site.
+
+
 When you fix something that every site would benefit from:
 
 1. Make the change in this template repo, on a branch, with tests where it's code (`node --test`, `node scripts/check.mjs`).
 2. Bump `"version"` in `template-manifest.json` (semver: patch for wording fixes, minor for new skills or behaviour).
-3. Add a dated entry at the top of `docs/LESSONS.md` saying what changed and why, in plain words. The assistant reads these to owners when updating.
+3. Add a dated entry at the top of `docs/LESSONS.md` saying what changed and why, in plain words. The assistant reads these to owners when updating. If existing sites need changes to their **own** files (`wrangler.jsonc`, `package.json`, `.gitignore`, `site/`), add an **Existing sites** section with exact steps. The updater only replaces template-owned files, and the assistant applies these steps on the same draft.
 4. If you add a new template-owned file outside the existing globs, add it to `templateOwned` in `template-manifest.json`.
 5. Merge, then tag: `git tag v<version> && git push --tags`.
 6. Tell the friends whose sites need it: *"Next time you open your website app, ask: update your instructions from the template."*

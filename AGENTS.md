@@ -12,7 +12,7 @@ The owner knows what they want their website to say and look like. They do not k
   | Instead of | Say |
   |---|---|
   | branch / pull request | "a draft" |
-  | preview deployment | "a preview link" |
+  | preview deployment | "a preview link" (anyone with the link can see it, so never call it private) |
   | merge / deploy to production | "make it live" |
   | revert | "undo" |
   | repository | "your website's files" |
@@ -36,7 +36,7 @@ Every change, however small, goes through a draft and a preview. Nothing goes li
 2. Make the change. Keep to the existing design (see section 5).
 3. Run `node scripts/check.mjs`. Fix every problem it reports before going on.
 4. Save and share the draft. (In cloud mode without `gh`, use your app's GitHub tools to open the pull request instead.) `git add -A && git commit -m "<what changed>" && git push -u origin HEAD`. The first time, also run `gh pr create --fill`.
-5. Get the preview link. Cloudflare posts it on the draft, usually within 1–2 minutes. Run `gh pr checks --watch`, then find the preview URL in `gh pr view --comments`. It looks like `https://<something>.workers.dev`.
+5. Get the preview link. Cloudflare builds it within 1–2 minutes: wait until `gh pr checks` shows **Workers Builds** as pass. If it says no checks yet, wait a little and retry. The link is `https://<draft name with / changed to ->-<site name>.<account subdomain>.workers.dev`, e.g. `https://change-new-photo-jane-pottery.jane-smith.workers.dev`. The account subdomain is in the site's free address in `SITE.md`. Cloudflare's comment on the draft may also show it, but it can be out of date. **Always load the link and check your change is there** before sharing it.
 6. Note the draft's latest commit (`git rev-parse HEAD`). That's the version they're approving. Give them the link in one sentence, e.g. "Here's a preview of your change: <link>. Have a look, and tell me if you'd like anything different or if it's ready to go live."
 7. More changes to the same thing go on the same draft: repeat steps 2–6.
 8. **Only when they clearly say so** ("make it live", "publish", "looks good, go ahead"), use the **publish** skill.
