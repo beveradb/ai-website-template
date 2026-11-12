@@ -29,9 +29,10 @@ No passwords or keys are handled: Cloudflare and GitHub connect through their ow
 This lets them ask for changes from the Claude or ChatGPT app on another device, without this computer. Adding photos is clunkier this way; see **edit-site**.
 
 - **Claude:**
-  1. Open https://claude.ai/settings/connectors (Settings → Connectors → GitHub) and connect GitHub.
-  2. When GitHub asks about the **Claude** app, choose **Only select repositories** → the site → **Install & Authorize**.
-  3. Then in the Claude app: **Code** → **Cloud**, and pick the repository.
+  1. In the Claude app: **Settings → Connectors → GitHub** (or https://claude.ai/settings/connectors), and connect GitHub.
+  2. When GitHub asks about the **Claude** app, choose **Only select repositories** → the site → **Install & Authorize**. If the Claude app is already installed on their GitHub with **All repositories**, there's nothing to change.
+  3. Check the browser is signed in to the **owner's** GitHub account first (AGENTS.md section 5).
+  4. Then, on any device: **Code**, choose the **Default** cloud environment, and pick the site's repository. (**Remote Control** entries mean "this computer", which must be switched on.)
 - **ChatGPT:**
   1. In ChatGPT's settings, find **Connectors / Apps → GitHub** (or Codex settings), and connect GitHub.
   2. Choose **Only select repositories** → the site.

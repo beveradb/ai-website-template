@@ -33,7 +33,7 @@ Commands below are written for Mac. On Windows, run each part of a `&&` chain as
 Every change, however small, goes through a draft and a preview. Nothing goes live until the owner says so.
 
 1. Start a draft: `git checkout main && git pull && git checkout -b change/<short-description>`.
-2. Make the change. Keep to the existing design (see section 5).
+2. Make the change. Keep to the existing design (see section 6).
 3. Run `node scripts/check.mjs`. Fix every problem it reports before going on.
 4. Save and share the draft. (In cloud mode without `gh`, use your app's GitHub tools to open the pull request instead.) `git add -A && git commit -m "<what changed>" && git push -u origin HEAD`. The first time, also run `gh pr create --fill`.
 5. Get the preview link. Cloudflare builds it within 1–2 minutes: wait until `gh pr checks` shows **Workers Builds** as pass. If it says no checks yet, wait a little and retry. The link is `https://<draft name, lowercase, with every character that isn't a letter or number changed to ->-<site name>.<account subdomain>.workers.dev`, e.g. draft `change/template-0.1.1` → `https://change-template-0-1-1-jane-pottery.jane-smith.workers.dev`. The account subdomain is in the site's free address in `SITE.md`. Cloudflare's comment on the draft may also show it, but it can be out of date. **Always load the link and check your change is there** before sharing it.
@@ -43,9 +43,14 @@ Every change, however small, goes through a draft and a preview. Nothing goes li
 
 If they ask for something unrelated while a draft is open, finish or park the current draft first, and tell them which one is which.
 
+### Checking things quietly
+
+When you check something that might not exist yet (no GitHub link, no draft, a missing file), write the command so it doesn't fail, e.g. add `|| true` or check first. The owner sees "command failed" in their app and may worry.
+
 ## 4. Never
 
 - **Never handle secrets.** Never ask for, type, read aloud, store, or put in any file: passwords, two-step codes, recovery codes, or API keys/tokens. If they offer one, stop them kindly: "Please don't share that with me. Type it straight into the website when it asks, and I'll wait." When a login or code is needed, open the page and let *them* type it.
+- **Stay inside this website's folder.** Never open, print or search files outside it. Never open `.env`, `.envrc` or other files that hold passwords or keys, even to "just check" something. If you need to know something about their computer or accounts, ask them or use the tools in the skills.
 - **Never make anything live without their clear OK** after they've seen a preview.
 - **Never spend money** without telling them exactly what it is and how much it costs per year, and getting a clear yes.
 - **Never break email.** When working with domain settings, never change or remove records that email depends on: MX, TXT (SPF/DKIM/DMARC/verification), and CNAME/SRV records for email (e.g. `*._domainkey`, `autodiscover`). Remove other records only when `domain.md` says so, after showing the owner.
@@ -53,14 +58,25 @@ If they ask for something unrelated while a draft is open, finish or park the cu
 - **Don't redesign** beyond what they asked for. Suggest ideas, but don't apply them uninvited.
 - **Never copy** other people's text, photos, logos or distinctive designs. When asked to make something "like" another site, take the general structure and feel only.
 
-## 5. Keeping the site consistent
+## 5. Using a browser
+
+Some steps need a website like GitHub or Cloudflare. In order of preference:
+1. **Your app's built-in browser**, if it has one.
+2. **The website browser** (`website-browser`, set up in `.mcp.json` / `.codex/config.toml`) if the built-in browser can't sign in (e.g. "verification failed"), or doesn't exist. It's a real Chrome window on their computer that remembers their logins, so they only sign in once. The owner types their own password and codes in it, and you do the clicking afterwards. If it isn't available, ask the owner to approve or enable the `website-browser` tool in the app. If Chrome isn't installed, help them install it from google.com/chrome.
+3. Only as a last resort, guide them through the steps in their own browser in words.
+
+Only one session can use the website browser at a time. Close it (the browser close tool) as soon as you're done. If it says the browser or profile is already in use, ask the owner to finish or close their other assistant chat that's using it, then try again.
+
+Before acting in any browser, check **which account** it's signed in to (GitHub and Google can have several). Never act as the wrong account.
+
+## 6. Keeping the site consistent
 
 - Colours, fonts, spacing and corner rounding are design tokens at the top of `site/styles.css` (or wherever `SITE.md` says). Use them; don't hard-code new colours or fonts. To change the overall look, change the tokens.
 - Keep pages accessible: real headings in order, `alt` text on every image (ask the owner what's in a photo if you can't tell), good colour contrast, and usable on a phone.
 - Whenever pages, sections or the way things are organised change, update `SITE.md` in the same draft.
 - How the site is built (plain HTML, or a framework) is described in `SITE.md`. To change it, follow `docs/choosing-a-stack.md`.
 
-## 6. Skills
+## 7. Skills
 
 Each skill has step-by-step instructions in `.agents/skills/<name>/SKILL.md`.
 
@@ -74,7 +90,7 @@ Each skill has step-by-step instructions in `.agents/skills/<name>/SKILL.md`.
 | **update-from-template** | The owner (or their helper) asks you to "update your instructions" or "update from the template". |
 | **add-helper** | The owner wants to give a helper (for example a friend who set this up) access to work on the site. |
 
-## 7. Template files and site files
+## 8. Template files and site files
 
 This site was made from the template at https://github.com/beveradb/ai-website-template. `template-manifest.json` lists the files that come from the template: these instructions, the skills, `scripts/`, `tests/` and some docs. Those files get replaced when the site is updated from the template.
 
@@ -82,7 +98,7 @@ This site was made from the template at https://github.com/beveradb/ai-website-t
 - Everything else belongs to this site: `site/`, `SITE.md`, `wrangler.jsonc`, `package.json`, `SETUP-PROGRESS.md`.
 - Never put site-specific files inside template folders (`scripts/`, `tests/`, `.agents/skills/`, `.githooks/`), or a template update may remove them. Use e.g. `tools/` for a site's own scripts.
 
-## 8. When you're stuck
+## 9. When you're stuck
 
 - Explain the problem in plain words and suggest what to do next.
 - Never leave the site half-changed. If a change can't be finished, park the draft and say so, so the live site stays as it was.

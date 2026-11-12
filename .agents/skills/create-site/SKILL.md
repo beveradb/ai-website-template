@@ -24,7 +24,8 @@ They can combine these, e.g. rebuild their old site and give it the feel of anot
 2. Save the real text content of each page. **Check it's theirs to use:** ask the owner about anything that looks like someone else's, e.g. stock photos, testimonials quoted from elsewhere, or other people's logos. Leave out or replace anything that isn't theirs.
 3. Download the images that are part of the content (not tracking pixels or icons from other sites) into `site/images/` with tidy names.
 4. Note the colours, fonts, layout and overall mood.
-5. Keep a list of anything that can't be carried over to a simple website: online shops, booking systems, member logins, comments, forms that send email. Tell the owner about these, and suggest simple replacements, e.g. a "book with me" link to a booking service, or an email link instead of a form.
+5. **Keep old addresses working.** Keep each page and post at the same address (path) as before where you can. Anything that moves or is dropped gets a redirect in `site/_redirects` (one per line: `/old-path/ /new-path/ 301`), so search results and bookmarks don't break.
+6. Keep a list of anything that can't be carried over to a simple website: online shops, booking systems, member logins, comments, forms that send email. Tell the owner about these, and suggest simple replacements, e.g. a "book with me" link to a booking service, or an email link instead of a form.
 
 **Inspired by (3):**
 1. Study the site's structure (which sections, in what order), its mood, layout style, spacing and type feel.
