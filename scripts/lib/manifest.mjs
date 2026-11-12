@@ -1,5 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
 export const MANIFEST_FILE = 'template-manifest.json';
 
@@ -55,4 +56,11 @@ export function walk(rootDir, { skip = [], skipPaths = [] } = {}) {
   };
   visit('');
   return out.sort();
+}
+
+/** True when the module at importMetaUrl is the script node was started with (resolving symlinks, e.g. macOS /var). */
+export function isMain(importMetaUrl) {
+  if (!process.argv[1]) return false;
+  const real = (p) => { try { return fs.realpathSync(p); } catch { return path.resolve(p); } };
+  return real(process.argv[1]) === real(fileURLToPath(importMetaUrl));
 }
