@@ -2,6 +2,18 @@
 
 Newest first. Each entry: what changed in the template, and why. Assistants read the entries newer than a site's current version when running **update-from-template**, and summarise them for the owner.
 
+## 2026-11-12 v0.2.0: Lessons from the first real migration (andrewbeveridge.co.uk)
+
+- **A real browser when sign-in is blocked.** Some sites (like Cloudflare) refuse password sign-in from the app's built-in browser. The template now includes a `website-browser`: a real Chrome window, driven by the assistant, that remembers logins. You sign in once.
+- **Joining an existing website** (e.g. a helper set it up for you, or you're on a new computer) now has its own short setup path and start message.
+- **Safer:** the assistant never opens files outside the website's folder, or files that hold passwords or keys.
+- **GitHub accounts:** setup checks *which* GitHub account the computer uses, not just that one is signed in.
+- **Domains already in Cloudflare** (attached to an old site) are moved one at a time, with seconds of downtime and email untouched.
+- **Rebuilds keep old addresses working**, with redirects where pages move.
+- The start page explains the Claude app's permission modes and the Changes panel you can ignore.
+
+**Existing sites:** the new browser files (`.mcp.json`, `.codex/config.toml`) arrive with this update. Nothing to change in the site's own files.
+
 ## 2026-11-11 v0.1.2: Updater works from any folder
 
 - The update and check scripts silently did nothing when run from a folder reached through a shortcut, such as the Mac's temporary folder. They now work from anywhere. (Found by an assistant during the first template update.)

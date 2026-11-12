@@ -10,7 +10,7 @@ You're guiding someone who may never have heard of GitHub or Cloudflare. Go slow
 **Hard rules for setup** (on top of AGENTS.md):
 - Signing up, passwords, two-step codes, CAPTCHAs and payment details are always typed by **the owner**. Open the page in the browser and explain what to do, then wait. Never fill these in yourself, and never ask them to tell you any of them.
 - GitHub forbids accounts created by bots, so the owner must create accounts themselves.
-- If your app has a built-in browser, use it so you can see the page and guide them. Otherwise, give them the link and ask them to describe or screenshot what they see.
+- Use a browser as described in AGENTS.md section 5 (built-in browser first, then the `website-browser` Chrome window if sign-in is blocked).
 - **Except** for screens that show secrets: password entry, two-step QR codes and setup keys, and recovery or backup codes. Have the owner do those in **their own normal browser**, where you can't see them. Describe the steps in words, and never ask for a screenshot of those screens.
 
 ## Progress file
@@ -49,12 +49,24 @@ Domain:
 
 Start by telling them the plan in 3–4 lines: "We'll set up two free accounts (GitHub stores your website's files, Cloudflare puts it on the internet), make your website together, connect your domain name, and make it live. I'll guide every step."
 
+## Joining an existing website
+
+If the website already exists and someone has added this person to it (a helper set it up, they're using a new computer, or they share a site), don't make a new one:
+1. Do **app-mode**, **tools**, **github-account**, **github-security** and **gh-signin** as below.
+2. If they were invited, accept the invitation: open https://github.com/notifications or the invitation email in the browser, and they click **Accept**.
+3. Put the site in this folder: `gh repo clone <owner>/<site> .` (the folder must be empty apart from the downloaded template; clear those files first after checking with the owner), then `git config core.hooksPath .githooks`, and set the git name and email as in **repo** step 4.
+4. Read `SITE.md`, then skip to **handover**, adapting it to an existing site.
+
+Use a shorter checklist in `SETUP-PROGRESS.md` for this: app-mode, tools, github-account, github-security, gh-signin, join, handover.
+
 ## The steps
 
 ### app-mode
 Check you can run commands in this folder, e.g. `pwd`. If you can't, you're in plain chat mode. Tell them how to switch:
 - **Claude app:** click **Code** at the top, choose **Local**, and pick this folder.
 - **ChatGPT app:** switch to **Codex**, choose **Local**, and pick this folder.
+
+If the app asks whether to **trust** this folder, or to approve the `website-browser` tool, say yes. It's the browser you'll use for website sign-ins.
 
 ### tools
 Check `git --version`, `gh --version` and `node --version` (Node 20 or newer, which runs the site's safety check).
@@ -65,6 +77,8 @@ Check `git --version`, `gh --version` and `node --version` (Node 20 or newer, wh
 
 ### github-account
 Ask: "Do you already have a GitHub account?" If yes, ask for the username, record it, and skip to **github-security**.
+
+When creating accounts (here and for Cloudflare), suggest **"Continue with Google"** (or Apple) if they have a Google or Apple account with two-step login. It means one fewer password, and signing in works more reliably from assistant browsers.
 
 Otherwise, open https://github.com/signup and walk them through it:
 1. **Email:** one they'll keep long-term.
@@ -79,7 +93,9 @@ Record the username.
 Follow `accounts-and-security.md` (GitHub section). Don't skip it. This is what saves them if they forget a password or lose a phone.
 
 ### gh-signin
-Run `gh auth status`. If it's not signed in:
+Run `gh auth status`.
+- **Signed in to several accounts?** Check which one is active. If it isn't the owner's, explain in plain words, then run `gh auth switch --user <their username>` after they agree. This changes the default for the whole computer, so say so.
+- **Not signed in:**
 1. Run `gh auth login --web --git-protocol https --hostname github.com`.
 2. It shows a one-time code and opens the browser. Say: "Your browser is asking you to confirm. Type in the code shown here (it's just a pairing code, not a password), then click **Authorize**."
 3. Then run `gh auth setup-git`.

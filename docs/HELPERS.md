@@ -21,6 +21,9 @@ You're the friend who knows a bit about computers and is helping someone get a w
 **Remotely:** send them the link to `docs/START-HERE.md`. The setup skill keeps progress in `SETUP-PROGRESS.md`, so they can stop and resume. Expect a call at the account-security or domain steps.
 
 Things that commonly need a human eye:
+- **Claude app permission mode:** Auto can block steps like creating the repo. Have them switch to **Manual** and approve, not **Bypass**.
+- **Several GitHub accounts on one Mac** (e.g. work and personal): check which one `gh` and the browser are using before setup creates anything.
+- **The `website-browser`** (Playwright with real Chrome, profile in `~/.website-assistant/browser-profile`) is the fallback when the built-in browser can't sign in. The app asks once to approve it. Codex only loads it once the project is trusted.
 - **Moving an existing domain** whose email is hosted at the old provider. Double-check the MX/TXT records made it into Cloudflare *before* the nameserver switch.
 - **CAPTCHAs** that fail in the app's built-in browser. Use their normal browser instead.
 - **Windows:** skill symlinks become plain files unless Developer Mode is on and `core.symlinks` is true. `node scripts/check.mjs` shows a warning, not a failure. Codex reads `.agents/skills` directly, and AGENTS.md points Claude at the same paths.

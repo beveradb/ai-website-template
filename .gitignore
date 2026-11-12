@@ -9,3 +9,4 @@ SETUP-PROGRESS.md
 *.heic
 *.HEIC
 photo-originals/
+.playwright-mcp/

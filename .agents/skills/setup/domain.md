@@ -2,7 +2,14 @@
 
 A domain is the website's address, like `janesmithpottery.com`. Ask: "Do you already own a domain name you'd like to use?"
 
-## They already own one
+## It's already in their Cloudflare account
+
+Check first: if the domain shows under **Domains** in their Cloudflare dashboard and is **Active**, skip the nameserver steps below.
+1. List its records (**DNS → Records**) and note the email ones (MX, TXT, `_domainkey`, `autodiscover`). Don't touch them.
+2. If an old website (another Worker or Pages project) is attached, find it in **Workers & Pages** → that project → **Domains** (or **Custom domains**). Remove each domain from the old project and **immediately** add it to the new one ("Attach the domain" below), one domain at a time, so the gap is seconds. Do this only after the owner agrees, and list every domain and subdomain you'll move first.
+3. Check each address loads the new site, and that the MX records are unchanged.
+
+## They already own one, elsewhere
 
 1. Ask where they bought it (GoDaddy, Namecheap, Squarespace, Google/Squarespace Domains, Wix…). If they don't know, look up the registrar with `whois <domain>` (Mac) or https://lookup.icann.org.
 2. Before changing anything, **check for email on the domain**:

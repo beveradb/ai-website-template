@@ -44,6 +44,10 @@ The assistant needs to be able to work with files in that folder:
 
 If the app asks for permission to read and change files in that folder, say yes.
 
+**Permission mode (Claude app):** the menu next to the model name at the bottom of the window is usually set to **Auto**. Leave it there. If the assistant says the app blocked a step, switch it to **Manual**, tell the assistant to try again, and approve the step when asked. Don't use **Bypass permissions**.
+
+You may see a **Changes** panel with a **Create PR** button on the right. You can ignore it. The assistant handles all of that for you.
+
 ## Step 4: Paste this message
 
 Copy this whole message, paste it into the app, and press Enter:
@@ -53,6 +57,14 @@ Please set up my website. Download https://github.com/beveradb/ai-website-templa
 ```
 
 The assistant takes it from there. It will guide you through everything, and tell you whenever it needs you to click or type something.
+
+## Joining a website that already exists
+
+If someone has already set up your website and added you to it, use this message in Step 4 instead (replace the link with your website's GitHub link):
+
+```
+Please set up my existing website on this computer. It's at https://github.com/OWNER/SITE. Download https://github.com/beveradb/ai-website-template/archive/refs/heads/main.zip and unzip its contents directly into this folder (not into a subfolder) — on a Mac use `curl -L -o template.zip <url> && tar -xf template.zip --strip-components 1 && rm template.zip`, on Windows use `curl.exe -L -o template.zip <url>; tar -xf template.zip --strip-components 1; del template.zip`. Then read AGENTS.md and follow the "Joining an existing website" part of .agents/skills/setup/SKILL.md with me. I'm not technical, so please keep things simple.
+```
 
 ## Important: keep your passwords to yourself
 
