@@ -2,6 +2,10 @@
 
 Newest first. Each entry: what changed in the template, and why. Assistants read the entries newer than a site's current version when running **update-from-template**, and summarise them for the owner.
 
+## 2026-11-12 v0.2.2: Moving a domain between Cloudflare accounts
+
+- Setup's domain guide now covers a domain registered in someone else's Cloudflare account (e.g. a family member's), moved into the owner's account with no downtime and email working throughout. Learned while moving lindsaywright.design to Lindsay's own account.
+
 ## 2026-11-12 v0.2.1: Hosting in someone else's Cloudflare account
 
 - Setup can now use a family member's (or helper's) Cloudflare account. The owner is invited as a member with their own login, and connects their own GitHub site to it. No passwords are shared.

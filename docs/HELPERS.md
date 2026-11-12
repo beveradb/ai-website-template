@@ -37,6 +37,10 @@ If you'd rather keep their domain and hosting in **your** Cloudflare account (e.
 
 You can remove them from Members at any time. Their GitHub stays theirs.
 
+## Handing over a domain you registered for them
+
+If you registered their domain in your Cloudflare account, move it into theirs. See "registered with Cloudflare, but in someone else's Cloudflare account" in `.agents/skills/setup/domain.md`. You start the move from your account, they accept it, and with the prep steps there's no downtime.
+
 ## Working on a friend's site yourself
 
 If they've added you with the **add-helper** skill, you're a collaborator on their repo:

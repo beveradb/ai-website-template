@@ -15,6 +15,23 @@ Check first: if the domain shows under **Domains** in their Cloudflare dashboard
    One at a time keeps the gap to seconds.
 5. Check each address loads the new site, and that the MX records are unchanged.
 
+## It's registered with Cloudflare, but in someone else's Cloudflare account
+
+For example, a family member bought it for them and it should now be theirs. Cloudflare can move the registration between accounts. Nobody needs to share a password: the other account holder starts the move, and the owner accepts it.
+
+**Before the move, set everything up in the owner's account,** so nothing breaks:
+1. Add the domain as a website in the owner's account and **finish the add-site steps**: choose the **Free** plan, then **Continue to activation**. It should show as *pending*. The move is refused while it's still setting up.
+2. Copy every DNS record from the old account's zone, especially the email ones (MX, TXT for SPF/DKIM/DMARC, `_domainkey` and `autodiscover` CNAMEs).
+3. If email forwarding (Email Routing) is used, recreate the same destination addresses and rules. Destinations get a verification email. Email Routing itself can only be **turned on** after the domain is active, so do that straight after the move.
+4. So the website works the moment the domain arrives, attach it now. Add the site's Worker routes (`<domain>/*`, and `www.<domain>/*` if wanted), plus a proxied `AAAA` record with content `100::` for each hostname. The Worker route serves the site; the record only makes the hostname resolve.
+5. Note the owner's **account ID** (on their Cloudflare home page, or in the dashboard address).
+
+**The move:**
+1. The current account holder opens the domain (**Domain Registration → Manage**), chooses **Move to another account**, enters the owner's account ID twice, and ticks the two acknowledgements. Leave any other settings, like auto-renew, as they are.
+2. In the owner's account, go to **Domain Registration → Registrations**. Open the pending domain (**Manage**, which leads to the Action Center) and click **Accept**. They have 5 days.
+3. The nameservers usually switch within minutes, though Cloudflare says up to 8 hours. Once the zone is **Active**, turn on Email Routing, check every address loads the site, and send a test email.
+4. The old account's zone becomes *moved* and can't be deleted (Cloudflare clears it). Old Workers or routes there can be removed. The domain can't be moved again for 30 days.
+
 ## They already own one, elsewhere
 
 1. Ask where they bought it (GoDaddy, Namecheap, Squarespace, Google/Squarespace Domains, Wix…). If they don't know, look up the registrar with `whois <domain>` (Mac) or https://lookup.icann.org.
