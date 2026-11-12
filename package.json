@@ -5,5 +5,8 @@
   "scripts": {
     "test": "node --test",
     "check": "node scripts/check.mjs"
+  },
+  "devDependencies": {
+    "wrangler": "^4.160.0"
   }
 }

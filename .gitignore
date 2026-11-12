@@ -5,3 +5,7 @@ node_modules/
 .env
 .env.*
 SETUP-PROGRESS.md
+# Original photos (e.g. iPhone .heic) are converted to .jpg; never upload the originals
+*.heic
+*.HEIC
+site/images/originals/

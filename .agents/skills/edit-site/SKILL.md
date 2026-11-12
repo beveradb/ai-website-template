@@ -33,7 +33,8 @@ Find out which mode you're in. If you can run commands in the site folder on the
 5. Convert iPhone `.heic` photos to `.jpg`:
    - Mac: `sips -s format jpeg in.heic --out out.jpg`
    - Windows: ask them to export the photo as JPEG.
-6. Add the photo to the page with good `alt` text. If you can't tell what's in the photo, ask them.
+6. Move each original out of the way, e.g. `mkdir -p site/images/originals && mv site/images/IMG_1234.HEIC site/images/originals/`. That folder is never uploaded. Only the converted, resized copies are used on the site.
+7. Add the photo to the page with good `alt` text. If you can't tell what's in the photo, ask them.
 
 **Cloud mode** (you can't see their computer):
 1. Your chat attachments may not be saved as files. Don't rely on them.

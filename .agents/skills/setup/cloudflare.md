@@ -10,17 +10,19 @@ No passwords or keys are handled: Cloudflare and GitHub connect through their ow
 
 1. Open https://dash.cloudflare.com and let them sign in.
 2. In the left menu, open **Compute** (it may say **Workers & Pages**) and click **Create** (or **Create application**).
-3. Choose **Import a repository** (or **Connect to Git** → **GitHub**).
-4. GitHub asks them to approve **Cloudflare Workers and Pages**. Tell them to choose **Only select repositories**, pick the site (`<site-name>`), and click **Install & Authorize**. This gives Cloudflare access to just this website.
+3. Choose **Connect GitHub** (it may say **Import a repository** or **Connect to Git**).
+4. GitHub may ask them to sign in, then to approve **Cloudflare Workers and Pages**. If Cloudflare was connected to their GitHub before, this screen is skipped, which is fine. Tell them to choose **Only select repositories**, pick the site (`<site-name>`), and click **Install & Authorize**. This gives Cloudflare access to just this website.
 5. Back in Cloudflare, select the repository and set:
    - **Project name:** exactly the site name. It must match `"name"` in `wrangler.jsonc`.
    - **Production branch:** `main`.
    - **Build command:** leave empty for plain HTML sites. If `SITE.md` says the site has a build step, use `npm run build`.
    - **Deploy command:** `npx wrangler deploy` (the default).
-   - **Builds for non-production branches / Preview builds:** make sure this is **enabled**. It creates the preview links.
+   - **Preview command:** `npx wrangler preview` (the default).
+   - **Enable Preview builds:** make sure this is **on** (it is by default). It creates the preview links.
+   - **Protect with Cloudflare Access:** leave **off**.
 6. Click **Create and deploy** (or **Deploy**). The first build takes a minute or two. It publishes the starter placeholder to a free `workers.dev` address only. Their real domain isn't connected yet, so this is fine.
 7. Note the free address it shows (`https://<site-name>.<their-subdomain>.workers.dev`) in `SETUP-PROGRESS.md`. It goes into `SITE.md` with the first version.
-8. Previews are checked the first time a draft is shared, in **first-version**. If no preview link appears within ~5 minutes of opening the first draft, come back here: in the Worker's **Settings → Build**, turn on builds for non-production branches, then push the draft again.
+8. Previews are checked the first time a draft is shared, in **first-version**. If the **Workers Builds** check fails, the build log is in the Cloudflare dashboard (the check's link). The owner may need to sign in for you to see it. A common cause is a missing `"previews": {}` block in `wrangler.jsonc`.
 
 ## Editing from anywhere (optional "cloud mode", experimental)
 
